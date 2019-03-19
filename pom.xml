@@ -54,7 +54,6 @@
   </dependencies>
 
   <build>
-    <finalName>node-parse-1.0</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>

@@ -1,9 +1,7 @@
 package com.sunlands.utils;
 
-import org.apache.poi.hslf.usermodel.HSLFSlide;
-import org.apache.poi.hslf.usermodel.HSLFSlideShow;
-import org.apache.poi.hslf.usermodel.HSLFTextParagraph;
-import org.apache.poi.hslf.usermodel.HSLFTextRun;
+import org.apache.poi.hslf.usermodel.*;
+import org.apache.poi.xslf.usermodel.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,17 +17,26 @@ public class PptReader {
     }
 
     public static String parseSlide(HSLFSlide slide) {
-        StringBuilder sb = new StringBuilder();
-        List<List<HSLFTextParagraph>> textParagraphss = slide.getTextParagraphs();
-        for (List<HSLFTextParagraph> textParagraphs : textParagraphss) {
-            for (HSLFTextParagraph textParagraph : textParagraphs) {
-                List<HSLFTextRun> textRuns = textParagraph.getTextRuns();
-                for (HSLFTextRun run : textRuns) {
-                    sb.append(run.getRawText()).append("\n");
+        StringBuilder content = new StringBuilder();
+        for(HSLFShape shape : slide.getShapes()){
+            parseShape(content, shape);
+        }
+        return content.toString();
+    }
+
+    private static void parseShape(StringBuilder content, HSLFShape shape) {
+        if(shape instanceof HSLFTextBox){ //获取到ppt的文本信息
+            for (HSLFTextParagraph paragraph : ((HSLFTextBox) shape)) {
+                //获取到每一段的文本信息
+                for (HSLFTextRun xslfTextRun : paragraph) {
+                    content.append(xslfTextRun.getRawText());
                 }
             }
+        } else if (shape instanceof HSLFGroupShape) {
+            for (HSLFShape childShape : ((HSLFGroupShape) shape).getShapes()) {
+                parseShape(content, childShape);
+            }
         }
-        return sb.toString();
     }
 
 }

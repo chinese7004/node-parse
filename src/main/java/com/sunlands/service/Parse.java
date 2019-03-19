@@ -71,12 +71,12 @@ public class Parse {
     }
 
     public static void main(String[] argv) {
-        String path = "C:\\Users\\Huoshan\\Desktop\\末级知识点全部.ppt";
+        String path = "C:\\Users\\Huoshan\\Desktop\\【现代人员测评】精讲2.ppt";
         List<KnowledgeNode> knowledgeNodeList = new ArrayList<>();
         KnowledgeNode knowledgeNode = new KnowledgeNode();
-        knowledgeNode.setId(208108);
-        knowledgeNode.setName("二元一次方程组");
-        knowledgeNode.setSerialNumber("1.1.1.2");
+        knowledgeNode.setId(1);
+        knowledgeNode.setName("一、量化的实质");
+        knowledgeNode.setSerialNumber("2.2.1");
         knowledgeNodeList.add(knowledgeNode);
 
         Map<Integer, List<KnowledgeNode>> res = parse(path, knowledgeNodeList);

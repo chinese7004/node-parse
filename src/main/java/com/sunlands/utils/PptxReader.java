@@ -55,16 +55,24 @@ public class PptxReader {
 
     public static String parseSlide(XSLFSlide slide) {
         StringBuilder content = new StringBuilder();
-        for(XSLFShape shape:slide.getShapes()){
-            if(shape instanceof XSLFTextShape){ //获取到ppt的文本信息
-                for (XSLFTextParagraph paragraph : ((XSLFTextShape) shape)) {
-                    //获取到每一段的文本信息
-                    for (XSLFTextRun xslfTextRun : paragraph) {
-                        content.append(xslfTextRun.getRawText());
-                    }
-                }
-            }
+        for(XSLFShape shape : slide.getShapes()){
+            parseShape(content, shape);
         }
         return content.toString();
+    }
+
+    private static void parseShape(StringBuilder content, XSLFShape shape) {
+        if(shape instanceof XSLFTextShape){ //获取到ppt的文本信息
+            for (XSLFTextParagraph paragraph : ((XSLFTextShape) shape)) {
+                //获取到每一段的文本信息
+                for (XSLFTextRun xslfTextRun : paragraph) {
+                    content.append(xslfTextRun.getRawText());
+                }
+            }
+        } else if (shape instanceof XSLFGroupShape) {
+            for (XSLFShape childShape : ((XSLFGroupShape) shape).getShapes()) {
+                parseShape(content, childShape);
+            }
+        }
     }
 }
