@@ -106,8 +106,9 @@ public class Parse {
      * @return
      */
     private static Boolean hasSerialNumber(KnowledgeNode knowledgeNode, String content) {
-        String serialNumber = knowledgeNode.getSerialNumber();
-        String name = knowledgeNode.getName();
+        content = content.toLowerCase();
+        String serialNumber = knowledgeNode.getSerialNumber().toLowerCase();
+        String name = knowledgeNode.getName().toLowerCase();
 
         String flagStr = serialNumber + ":" + name;
         String flagStr2 = serialNumber + ":" + splitName(name);
