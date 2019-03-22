@@ -71,14 +71,25 @@ public class Parse {
     }
 
     public static void main(String[] argv) {
-        String path = "C:\\Users\\Huoshan\\Desktop\\【现代人员测评】精讲2.ppt";
+        String pdf = "C:\\Users\\Huoshan\\Desktop\\现代企业管理精讲4.pdf";
+        String ppt = "C:\\Users\\Huoshan\\Desktop\\现代企业管理精讲4.ppt";
+        String pptx = "C:\\Users\\Huoshan\\Desktop\\现代企业管理精讲4.pptx";
         List<KnowledgeNode> knowledgeNodeList = new ArrayList<>();
         KnowledgeNode knowledgeNode = new KnowledgeNode();
-        knowledgeNode.setId(1);
-        knowledgeNode.setName("一、量化的实质");
-        knowledgeNode.setSerialNumber("2.2.1");
+        knowledgeNode.setId(107662);
+        knowledgeNode.setName("企业环境和企业形象");
+        knowledgeNode.setSerialNumber("6.2.1.2");
         knowledgeNodeList.add(knowledgeNode);
 
+        System.out.println("PDF===========================");
+        show(pdf, knowledgeNodeList);
+        System.out.println("PPT===========================");
+        show(ppt, knowledgeNodeList);
+        System.out.println("PPTX===========================");
+        show(pptx, knowledgeNodeList);
+    }
+
+    private static void show(String path, List<KnowledgeNode> knowledgeNodeList) {
         Map<Integer, List<KnowledgeNode>> res = parse(path, knowledgeNodeList);
         for (Integer page : res.keySet()) {
             List<KnowledgeNode> nodes = res.get(page);

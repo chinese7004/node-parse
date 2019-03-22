@@ -1,7 +1,6 @@
 package com.sunlands.utils;
 
 import org.apache.poi.hslf.usermodel.*;
-import org.apache.poi.xslf.usermodel.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,8 +24,8 @@ public class PptReader {
     }
 
     private static void parseShape(StringBuilder content, HSLFShape shape) {
-        if(shape instanceof HSLFTextBox){ //获取到ppt的文本信息
-            for (HSLFTextParagraph paragraph : ((HSLFTextBox) shape)) {
+        if(shape instanceof HSLFTextShape){ //获取到ppt的文本信息
+            for (HSLFTextParagraph paragraph : ((HSLFTextShape) shape)) {
                 //获取到每一段的文本信息
                 for (HSLFTextRun xslfTextRun : paragraph) {
                     content.append(xslfTextRun.getRawText());
