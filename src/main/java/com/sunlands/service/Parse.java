@@ -63,29 +63,43 @@ public class Parse {
             }
 
             if (temp.size() > 0 && temp.size() < ONE_PAGE_NODE_MAX_NUMBER) {
-                res.put(index++, temp);
+                res.put(index, temp);
             }
+
+            index++;
         }
 
         return res;
     }
 
     public static void main(String[] argv) {
-        String pdf = "C:\\Users\\Huoshan\\Desktop\\现代企业管理精讲4.pdf";
-        String ppt = "C:\\Users\\Huoshan\\Desktop\\现代企业管理精讲4.ppt";
-        String pptx = "C:\\Users\\Huoshan\\Desktop\\现代企业管理精讲4.pptx";
+        String pptx = "C:\\Users\\Huoshan\\Desktop\\1.pptx";
         List<KnowledgeNode> knowledgeNodeList = new ArrayList<>();
+
         KnowledgeNode knowledgeNode = new KnowledgeNode();
         knowledgeNode.setId(107662);
-        knowledgeNode.setName("企业环境和企业形象");
-        knowledgeNode.setSerialNumber("6.2.1.2");
+        knowledgeNode.setName("一、函数的概念");
+        knowledgeNode.setSerialNumber("1.2.1");
         knowledgeNodeList.add(knowledgeNode);
 
-        System.out.println("PDF===========================");
-        show(pdf, knowledgeNodeList);
-        System.out.println("PPT===========================");
-        show(ppt, knowledgeNodeList);
-        System.out.println("PPTX===========================");
+        knowledgeNode = new KnowledgeNode();
+        knowledgeNode.setId(107662);
+        knowledgeNode.setName("隐函数的定义");
+        knowledgeNode.setSerialNumber("1.2.1.3");
+        knowledgeNodeList.add(knowledgeNode);
+
+        knowledgeNode = new KnowledgeNode();
+        knowledgeNode.setId(107662);
+        knowledgeNode.setName("函数的定义");
+        knowledgeNode.setSerialNumber("1.2.1.2");
+        knowledgeNodeList.add(knowledgeNode);
+
+        knowledgeNode = new KnowledgeNode();
+        knowledgeNode.setId(107662);
+        knowledgeNode.setName("函数问题的例子");
+        knowledgeNode.setSerialNumber("1.2.1.1");
+        knowledgeNodeList.add(knowledgeNode);
+
         show(pptx, knowledgeNodeList);
     }
 
