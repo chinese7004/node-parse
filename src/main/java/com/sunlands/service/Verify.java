@@ -3,13 +3,19 @@ package com.sunlands.service;
 import com.alibaba.fastjson.JSON;
 import com.sunlands.model.DocumentVerifyResult;
 import com.sunlands.model.KnowledgeNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Verify {
+    private static final Logger logger = LoggerFactory.getLogger(Verify.class);
+
     public static DocumentVerifyResult verify(String path, List<KnowledgeNode> knowledgeNodeList) {
+        logger.info("verify start path=" + path + ",knowledgeNodeList=" + knowledgeNodeList);
+
         DocumentVerifyResult res = new DocumentVerifyResult();
         if (knowledgeNodeList == null || knowledgeNodeList.size() == 0) {
             return res;
@@ -17,6 +23,8 @@ public class Verify {
         res.setTotal(knowledgeNodeList.size());
 
         Map<Integer, List<KnowledgeNode>> parseResult = Parse.parse(path, knowledgeNodeList);
+        logger.info(JSON.toJSONString(parseResult));
+
         List<KnowledgeNode> tempList = new ArrayList<>(knowledgeNodeList);
         if (parseResult != null && parseResult.size() > 0) {
             for (Integer page : parseResult.keySet()) {
@@ -44,6 +52,8 @@ public class Verify {
 
         res.setCount(count);
         res.setMissKnowledgeNodeList(missKnowledgeNodeList);
+        logger.info("匹配结果=" + JSON.toJSONString(res));
+        logger.info("verify end======================================");
         return res;
     }
 
@@ -57,6 +67,5 @@ public class Verify {
         knowledgeNodeList.add(knowledgeNode);
 
         DocumentVerifyResult res = verify(path, knowledgeNodeList);
-        System.out.println(JSON.toJSONString(res));
     }
 }

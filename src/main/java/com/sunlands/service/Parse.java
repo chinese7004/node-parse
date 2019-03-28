@@ -1,21 +1,29 @@
 package com.sunlands.service;
 
+import com.alibaba.fastjson.JSON;
 import com.sunlands.model.KnowledgeNode;
 import com.sunlands.utils.PdfReader;
 import com.sunlands.utils.PptReader;
 import com.sunlands.utils.PptxReader;
 import org.apache.poi.hslf.usermodel.HSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
 public class Parse {
+    private static final Logger logger = LoggerFactory.getLogger(Parse.class);
+
     private static final int ONE_PAGE_NODE_MAX_NUMBER = 4;
 
     public static Map<Integer, List<KnowledgeNode>> parse(String path, List<KnowledgeNode> knowledgeNodeList) {
+        logger.info("parse start path=" + path + ",knowledgeNodeList=" + knowledgeNodeList.toString());
+
         Map<Integer, List<KnowledgeNode>> res = new HashMap<>();
         if (knowledgeNodeList == null || knowledgeNodeList.size() == 0) {
+            logger.info("knowledgeNodeList is empty. parse end=============================");
             return res;
         }
 
@@ -46,9 +54,12 @@ public class Parse {
                 }
             }
         } catch (Exception e) {
+            logger.info("parse error======================================");
             e.printStackTrace();
             return res;
         }
+
+        logger.info("contents=" + String.valueOf(contents));
 
         Integer index = 1;
         for (String content : contents) {
@@ -70,6 +81,7 @@ public class Parse {
             index++;
         }
 
+        logger.info("parse end======================================");
         return res;
     }
 
