@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Verify {
-    public static DocumentVerifyResult verify(String path, List<KnowledgeNode> knowledgeNodeList) {
+    public static DocumentVerifyResult verify(String path, List<KnowledgeNode> knowledgeNodeList) throws Exception {
         DocumentVerifyResult res = new DocumentVerifyResult();
         if (knowledgeNodeList == null || knowledgeNodeList.size() == 0) {
             return res;
@@ -56,7 +56,12 @@ public class Verify {
         knowledgeNode.setSerialNumber("4.2.1.1");
         knowledgeNodeList.add(knowledgeNode);
 
-        DocumentVerifyResult res = verify(path, knowledgeNodeList);
+        DocumentVerifyResult res = null;
+        try {
+            res = verify(path, knowledgeNodeList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println(JSON.toJSONString(res));
     }
 }

@@ -13,10 +13,10 @@ import java.util.*;
 public class Parse {
     private static final int ONE_PAGE_NODE_MAX_NUMBER = 4;
 
-    public static Map<Integer, List<KnowledgeNode>> parse(String path, List<KnowledgeNode> knowledgeNodeList) {
+    public static Map<Integer, List<KnowledgeNode>> parse(String path, List<KnowledgeNode> knowledgeNodeList) throws Exception{
         Map<Integer, List<KnowledgeNode>> res = new HashMap<>();
         if (knowledgeNodeList == null || knowledgeNodeList.size() == 0) {
-            return res;
+            throw new RuntimeException("未找到对应知识点");
         }
 
         String suffix = calSuffix(path);
@@ -46,7 +46,7 @@ public class Parse {
                 }
             }
         } catch (Exception e) {
-            return res;
+            throw new RuntimeException("解析失败");
         }
 
         Integer index = 1;
@@ -104,7 +104,13 @@ public class Parse {
     }
 
     private static void show(String path, List<KnowledgeNode> knowledgeNodeList) {
-        Map<Integer, List<KnowledgeNode>> res = parse(path, knowledgeNodeList);
+        Map<Integer, List<KnowledgeNode>> res;
+        try {
+            res = parse(path, knowledgeNodeList);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         for (Integer page : res.keySet()) {
             List<KnowledgeNode> nodes = res.get(page);
             System.out.println("page " + page);
