@@ -46,6 +46,7 @@ public class Parse {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return res;
         }
 
