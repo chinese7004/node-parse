@@ -35,6 +35,7 @@ public class Parse {
                 if (slides != null) {
                     for (XSLFSlide slide : slides) {
                         String content = PptxReader.parseSlide(slide);
+                        content = replaceSpace(content);
                         contents.add(content);
                     }
                 }
@@ -43,6 +44,7 @@ public class Parse {
                 for (Object slide : slides) {
                     String content = PptReader.parseSlide((HSLFSlide) slide);
                     content = content.replace("\n", "");
+                    content = replaceSpace(content);
                     contents.add(content);
                 }
             } else if (suffix.contains(".pdf")) {
@@ -50,6 +52,7 @@ public class Parse {
                 Integer size = PdfReader.page(pdfFile);
                 for (int i = 0; i < size; i++) {
                     String content = PdfReader.parse(pdfFile, i + 1);
+                    content = replaceSpace(content);
                     contents.add(content);
                 }
             }
@@ -61,8 +64,9 @@ public class Parse {
 
         logger.info("contents=" + String.valueOf(contents));
 
-        Integer index = 1;
+        Integer index = 0;
         for (String content : contents) {
+            index++;
             if (content == null || "".equals(content) || content.contains("练一练") || content.contains("练习")) {
                 continue;
             }
@@ -77,12 +81,16 @@ public class Parse {
             if (temp.size() > 0 && temp.size() < ONE_PAGE_NODE_MAX_NUMBER) {
                 res.put(index, temp);
             }
-
-            index++;
         }
 
         logger.info("parse end======================================");
         return res;
+    }
+
+    private static String replaceSpace(String content) {
+        content = content.replace(" ", "");
+        content = content.replace(" ", "");
+        return content;
     }
 
     public static void main(String[] argv) {
@@ -152,17 +160,11 @@ public class Parse {
         String flagStr2 = serialNumber + ":" + splitName(name);
         String flagStr3 = serialNumber + "：" + name;
         String flagStr4 = serialNumber + "：" + splitName(name);
-        String flagStr5 = serialNumber + " " + name;
-        String flagStr6 = serialNumber + " " + splitName(name);
-        String flagStr7 = serialNumber + " " + name;
-        String flagStr8 = serialNumber + " " + splitName(name);
         String flagStr9 = serialNumber + name;
         String flagStr10 = serialNumber + splitName(name);
 
         return content.contains(flagStr) || content.contains(flagStr2)
                 || content.contains(flagStr3) || content.contains(flagStr4)
-                || content.contains(flagStr5) || content.contains(flagStr6)
-                || content.contains(flagStr7) || content.contains(flagStr8)
                 || content.contains(flagStr9) || content.contains(flagStr10);
     }
 
