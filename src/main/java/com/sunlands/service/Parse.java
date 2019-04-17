@@ -99,26 +99,8 @@ public class Parse {
 
         KnowledgeNode knowledgeNode = new KnowledgeNode();
         knowledgeNode.setId(107662);
-        knowledgeNode.setName("一、函数的概念");
-        knowledgeNode.setSerialNumber("1.2.1");
-        knowledgeNodeList.add(knowledgeNode);
-
-        knowledgeNode = new KnowledgeNode();
-        knowledgeNode.setId(107662);
-        knowledgeNode.setName("隐函数的定义");
-        knowledgeNode.setSerialNumber("1.2.1.3");
-        knowledgeNodeList.add(knowledgeNode);
-
-        knowledgeNode = new KnowledgeNode();
-        knowledgeNode.setId(107662);
-        knowledgeNode.setName("函数的定义");
-        knowledgeNode.setSerialNumber("1.2.1.2");
-        knowledgeNodeList.add(knowledgeNode);
-
-        knowledgeNode = new KnowledgeNode();
-        knowledgeNode.setId(107662);
-        knowledgeNode.setName("函数问题的例子");
-        knowledgeNode.setSerialNumber("1.2.1.1");
+        knowledgeNode.setName("科学毁了我的晚餐（Science Has Spoiled My Supper）");
+        knowledgeNode.setSerialNumber("1.1.2.8");
         knowledgeNodeList.add(knowledgeNode);
 
         show(pptx, knowledgeNodeList);
@@ -136,6 +118,7 @@ public class Parse {
     }
 
     public static String calSuffix(String url) {
+        url = url.toLowerCase();
         if (url.contains(".pptx")) {
             return ".pptx";
         } else if (url.contains(".ppt")) {
@@ -156,16 +139,20 @@ public class Parse {
         String serialNumber = knowledgeNode.getSerialNumber().toLowerCase();
         String name = knowledgeNode.getName().toLowerCase();
 
-        String flagStr = serialNumber + ":" + name;
-        String flagStr2 = serialNumber + ":" + splitName(name);
-        String flagStr3 = serialNumber + "：" + name;
-        String flagStr4 = serialNumber + "：" + splitName(name);
-        String flagStr9 = serialNumber + name;
-        String flagStr10 = serialNumber + splitName(name);
+        List<String> flagStrs = new ArrayList<>();
+        flagStrs.add(replaceSpace(serialNumber + ":" + name));
+        flagStrs.add(replaceSpace(serialNumber + ":" + splitName(name)));
+        flagStrs.add(replaceSpace(serialNumber + "：" + name));
+        flagStrs.add(replaceSpace(serialNumber + "：" + splitName(name)));
+        flagStrs.add(replaceSpace(serialNumber + name));
+        flagStrs.add(replaceSpace(serialNumber + splitName(name)));
 
-        return content.contains(flagStr) || content.contains(flagStr2)
-                || content.contains(flagStr3) || content.contains(flagStr4)
-                || content.contains(flagStr9) || content.contains(flagStr10);
+        for (String flagStr : flagStrs) {
+            if (content.contains(flagStr)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

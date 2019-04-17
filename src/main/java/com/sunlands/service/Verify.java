@@ -58,14 +58,15 @@ public class Verify {
     }
 
     public static void main(String[] argv) {
-        String path = "C:\\Users\\Huoshan\\Desktop\\eg1\\碎片化验证课件\\941492.pptx";
+        String path = "C:\\Users\\Huoshan\\Desktop\\1.PPTX";
         List<KnowledgeNode> knowledgeNodeList = new ArrayList<>();
         KnowledgeNode knowledgeNode = new KnowledgeNode();
         knowledgeNode.setId(1);
-        knowledgeNode.setName("货币转化为资本和劳动力成为商品");
-        knowledgeNode.setSerialNumber("4.2.1.1");
+        knowledgeNode.setName("科学毁了我的晚餐（Science Has Spoiled My Supper）");
+        knowledgeNode.setSerialNumber("1.1.2.8");
         knowledgeNodeList.add(knowledgeNode);
 
         DocumentVerifyResult res = verify(path, knowledgeNodeList);
+        System.out.println(JSON.toJSONString(res));
     }
 }
