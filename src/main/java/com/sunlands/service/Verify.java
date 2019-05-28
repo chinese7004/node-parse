@@ -25,7 +25,14 @@ public class Verify {
         Map<Integer, List<KnowledgeNode>> parseResult = Parse.parse(path, knowledgeNodeList);
         logger.info(JSON.toJSONString(parseResult));
 
-        List<KnowledgeNode> tempList = new ArrayList<>(knowledgeNodeList);
+        List<KnowledgeNode> tempList = new ArrayList<>();
+        for (KnowledgeNode knowledgeNode : knowledgeNodeList) {
+            KnowledgeNode tmp = new KnowledgeNode();
+            tmp.setSerialNumber(knowledgeNode.getSerialNumber());
+            tmp.setName(knowledgeNode.getName());
+            tmp.setId(knowledgeNode.getId());
+            tempList.add(tmp);
+        }
         if (parseResult != null && parseResult.size() > 0) {
             for (Integer page : parseResult.keySet()) {
                 List<KnowledgeNode> nodes = parseResult.get(page);
