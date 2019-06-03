@@ -6,7 +6,7 @@
 
   <groupId>com.sunlands</groupId>
   <artifactId>node-parse</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.3</version>
   <packaging>jar</packaging>
 
   <name>node-parse</name>
