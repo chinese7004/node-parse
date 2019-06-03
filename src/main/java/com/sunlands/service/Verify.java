@@ -22,7 +22,11 @@ public class Verify {
         }
         res.setTotal(knowledgeNodeList.size());
 
-        Map<Integer, List<KnowledgeNode>> parseResult = Parse.parse(path, knowledgeNodeList);
+        Map<Integer, List<KnowledgeNode>> parseResult = null;
+        try {
+            parseResult = Parse.parse(path, knowledgeNodeList);
+        } catch (Exception ignored) {
+        }
         logger.info(JSON.toJSONString(parseResult));
 
         List<KnowledgeNode> tempList = new ArrayList<>();

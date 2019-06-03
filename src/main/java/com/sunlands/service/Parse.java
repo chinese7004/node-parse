@@ -18,7 +18,7 @@ public class Parse {
 
     private static final int ONE_PAGE_NODE_MAX_NUMBER = 4;
 
-    public static Map<Integer, List<KnowledgeNode>> parse(String path, List<KnowledgeNode> knowledgeNodeList) {
+    public static Map<Integer, List<KnowledgeNode>> parse(String path, List<KnowledgeNode> knowledgeNodeList) throws Exception {
         logger.info("parse start path=" + path + ",knowledgeNodeList=" + knowledgeNodeList.toString());
 
         Map<Integer, List<KnowledgeNode>> res = new HashMap<>();
@@ -29,37 +29,31 @@ public class Parse {
 
         String suffix = calSuffix(path);
         List<String> contents = new ArrayList<>();
-        try {
-            if (".pptx".equals(suffix)) {
-                List<XSLFSlide> slides = PptxReader.readPages(path);
-                if (slides != null) {
-                    for (XSLFSlide slide : slides) {
-                        String content = PptxReader.parseSlide(slide);
-                        content = replaceSpace(content);
-                        contents.add(content);
-                    }
-                }
-            } else if (".ppt".equals(suffix)) {
-                List slides = PptReader.readPages(path);
-                for (Object slide : slides) {
-                    String content = PptReader.parseSlide((HSLFSlide) slide);
-                    content = content.replace("\n", "");
-                    content = replaceSpace(content);
-                    contents.add(content);
-                }
-            } else if (suffix.contains(".pdf")) {
-                File pdfFile = new File(path);
-                Integer size = PdfReader.page(pdfFile);
-                for (int i = 0; i < size; i++) {
-                    String content = PdfReader.parse(pdfFile, i + 1);
+        if (".pptx".equals(suffix)) {
+            List<XSLFSlide> slides = PptxReader.readPages(path);
+            if (slides != null) {
+                for (XSLFSlide slide : slides) {
+                    String content = PptxReader.parseSlide(slide);
                     content = replaceSpace(content);
                     contents.add(content);
                 }
             }
-        } catch (Exception e) {
-            logger.info("parse error======================================");
-            e.printStackTrace();
-            return res;
+        } else if (".ppt".equals(suffix)) {
+            List slides = PptReader.readPages(path);
+            for (Object slide : slides) {
+                String content = PptReader.parseSlide((HSLFSlide) slide);
+                content = content.replace("\n", "");
+                content = replaceSpace(content);
+                contents.add(content);
+            }
+        } else if (suffix.contains(".pdf")) {
+            File pdfFile = new File(path);
+            Integer size = PdfReader.page(pdfFile);
+            for (int i = 0; i < size; i++) {
+                String content = PdfReader.parse(pdfFile, i + 1);
+                content = replaceSpace(content);
+                contents.add(content);
+            }
         }
 
         logger.info("contents=" + String.valueOf(contents));
@@ -93,7 +87,7 @@ public class Parse {
         return content;
     }
 
-    public static void main(String[] argv) {
+    public static void main(String[] argv) throws Exception {
         String pptx = "C:\\Users\\Huoshan\\Desktop\\1.pptx";
         List<KnowledgeNode> knowledgeNodeList = new ArrayList<>();
 
@@ -106,7 +100,7 @@ public class Parse {
         show(pptx, knowledgeNodeList);
     }
 
-    private static void show(String path, List<KnowledgeNode> knowledgeNodeList) {
+    private static void show(String path, List<KnowledgeNode> knowledgeNodeList) throws Exception {
         Map<Integer, List<KnowledgeNode>> res = parse(path, knowledgeNodeList);
         for (Integer page : res.keySet()) {
             List<KnowledgeNode> nodes = res.get(page);
